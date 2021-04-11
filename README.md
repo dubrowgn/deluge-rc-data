@@ -27,3 +27,9 @@ Enabling the plugin creates a default config, which you can modify to suite your
 ```bash
 python3 ./setup.py bdist_egg
 ```
+
+## Known Issues
+
+* Linux is unable to hard-link across mount points or file systems.
+* If you are using Deluge in a Docker container, both `dest_dir` and your data directory must be in the same docker volume.
+* No Windows support.
