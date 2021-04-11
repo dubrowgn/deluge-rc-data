@@ -12,7 +12,7 @@ This allows your seedbox to automatically clean up when a target ratio is reache
 
 ## Example config
 
-Enabling the plugin creates a default config, which you can modify to suite your needs.
+Enabling the plugin creates a default config, which you can modify to suit your needs.
 
 ```json
 // rc-data.conf
@@ -31,5 +31,5 @@ python3 ./setup.py bdist_egg
 ## Known Issues
 
 * Linux is unable to hard-link across mount points or file systems.
-* If you are using Deluge in a Docker container, both `dest_dir` and your data directory must be in the same docker volume.
+* If you are using Deluge in a docker container, both `dest_dir` and your data directory must be in the same docker volume.
 * No Windows support.
