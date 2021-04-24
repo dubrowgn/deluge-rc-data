@@ -5,7 +5,7 @@ desc = "Reference count torrent data for safe removal at any time"
 
 setup(
     name=name,
-    version="1.0.1",
+    version="1.0.2",
     description=desc,
     author="Dustin Brown",
     author_email="me@dubrowgn.com",

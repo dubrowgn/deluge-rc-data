@@ -9,3 +9,5 @@ for version in "3.6" "3.7" "3.8" "3.9" "3.10-rc"; do
 		"python:$version-alpine" \
 		python3 ./setup.py bdist_egg
 done
+
+sudo chown -R "$(id -u):$(id -g)" build dist RcData.egg-info

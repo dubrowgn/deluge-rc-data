@@ -5,13 +5,35 @@ from deluge.core.rpcserver import export
 import logging
 from pathlib import Path
 from subprocess import CalledProcessError, run, PIPE
-from twisted.internet.task import LoopingCall
+from threading import Thread
+from time import sleep
 
 log = logging.getLogger("deluge.plugins.rc-data")
 
 def _hard_link(src_path: Path, dest_path: Path):
     args = ["cp", "-rl", str(src_path), str(dest_path)]
     run(args, check=True, stdout=PIPE, stderr=PIPE)
+
+
+class ThreadLoop():
+    def __init__(self, name, target, interval_sec=1):
+        self.target = target
+        self.interval_sec = interval_sec
+        self.should_run = False
+        self.thread = Thread(name=name, target=self.loop)
+
+    def start(self):
+        self.should_run = True
+        self.thread.start()
+
+    def stop(self):
+        self.should_run = False
+        self.thread.join()
+
+    def loop(self):
+        while self.should_run:
+            self.target()
+            sleep(self.interval_sec)
 
 
 class Core(CorePluginBase):
@@ -30,11 +52,11 @@ class Core(CorePluginBase):
         self.event_mgr = component.get("EventManager")
         self.event_mgr.register_event_handler("TorrentFinishedEvent", self.on_finished)
 
-        self.poll_timer = LoopingCall(self.poll_torrents)
-        self.poll_timer.start(10)
+        self.looper = ThreadLoop("rc-data.loop", self.poll_torrents, 10)
+        self.looper.start()
 
     def disable(self):
-        self.poll_timer.stop()
+        self.looper.stop()
         self.event_mgr.deregister_event_handler("TorrentFinishedEvent", self.on_finished)
 
     def on_finished(self, tid):
