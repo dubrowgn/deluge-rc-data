@@ -2,6 +2,8 @@
 
 Reference count torrent data for safe removal at any time.
 
+[Deluge Forum Thread](https://forum.deluge-torrent.org/viewtopic.php?f=9&t=55922)
+
 ## Explanation
 
 This is a Deluge plugin that does 2 things:
