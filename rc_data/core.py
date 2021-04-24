@@ -1,12 +1,13 @@
-from deluge.log import LOG as log
 from deluge.plugins.pluginbase import CorePluginBase
 import deluge.component as component
 import deluge.configmanager
 from deluge.core.rpcserver import export
+import logging
 from pathlib import Path
 from subprocess import CalledProcessError, run, PIPE
 from twisted.internet.task import LoopingCall
 
+log = logging.getLogger("deluge.plugins.rc-data")
 
 def _hard_link(src_path: Path, dest_path: Path):
     args = ["cp", "-rl", str(src_path), str(dest_path)]
